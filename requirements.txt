@@ -1,0 +1,46 @@
+"""django==4.2.7
+mysqlclient==2.2.0
+pillow==10.1.0
+opencv-python==4.8.1.78
+numpy==1.26.2
+pytesseract==0.3.10
+easyocr==1.7.1
+anthropic==0.8.1
+twilio==8.10.0
+reportlab==4.0.7
+python-dotenv==1.0.0
+whitenoise==6.6.0"""
+# AutoGrade AI — Requirements
+# Install: pip install -r requirements.txt
+
+# ── Django & Web ──────────────────────────────────
+django==4.2.7
+mysqlclient==2.2.0
+whitenoise==6.6.0
+python-dotenv==1.0.0
+
+# ── Image Processing (DIP) ────────────────────────
+opencv-python==4.8.1.78
+numpy==1.26.2
+pillow
+
+# ── OCR ──────────────────────────────────────────
+pytesseract==0.3.10
+easyocr==1.7.1
+
+# ── AI & APIs ────────────────────────────────────
+huggingface-hub==0.20.3
+requests==2.31.0
+
+# ── PDF Generation ───────────────────────────────
+reportlab==4.0.7
+
+# ── WhatsApp ─────────────────────────────────────
+twilio==8.10.0
+
+# ── Excel Export ─────────────────────────────────
+openpyxl==3.1.2
+
+# ── Utilities ────────────────────────────────────
+python-dateutil==2.8.2
+

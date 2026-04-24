@@ -1,0 +1,132 @@
+{% extends 'grader/base.html' %}
+{% block title %}Questions — {{ paper.title }}{% endblock %}
+{% block page_title %}Questions — {{ paper.title }}{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Questions</span>
+        <button class="btn btn-sm btn-outline-primary" onclick="addQuestion()"><i class="bi bi-plus me-1"></i>Add Question</button>
+      </div>
+      <div class="card-body" id="questions-container">
+        {% for q in paper.questions.all %}
+        <div class="question-block border rounded p-3 mb-3" data-idx="{{ forloop.counter }}">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-semibold" style="font-size:14px;">Q{{ forloop.counter }}</span>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQ(this)"><i class="bi bi-trash"></i></button>
+          </div>
+          <div class="mb-2"><input class="form-control form-control-sm q-text" placeholder="Question text" value="{{ q.question_text }}"></div>
+          <div class="row g-2 mb-2">
+            <div class="col-4">
+              <select class="form-select form-select-sm q-type" onchange="toggleFields(this)">
+                <option value="mcq" {% if q.q_type == 'mcq' %}selected{% endif %}>MCQ</option>
+                <option value="short" {% if q.q_type == 'short' %}selected{% endif %}>Short Answer</option>
+                <option value="long" {% if q.q_type == 'long' %}selected{% endif %}>Long Answer</option>
+              </select>
+            </div>
+            <div class="col-3"><input type="number" class="form-control form-control-sm q-marks" placeholder="Marks" value="{{ q.max_marks }}" min="0.5" step="0.5"></div>
+            <div class="col-5"><input class="form-control form-control-sm q-answer" placeholder="Correct answer / Model answer" value="{{ q.correct_answer }}"></div>
+          </div>
+          <div class="mcq-fields {% if q.q_type != 'mcq' %}d-none{% endif %}">
+            <input class="form-control form-control-sm q-options mb-2" placeholder="MCQ Options (A,B,C,D) e.g. Kitchen,Powerhouse,Nucleus,Wall" value="{{ q.options }}">
+          </div>
+          <div class="kw-fields {% if q.q_type == 'mcq' %}d-none{% endif %}">
+            <input class="form-control form-control-sm q-keywords" placeholder="Keywords (comma-separated): chlorophyll,glucose,sunlight" value="{{ q.keywords }}">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-header">Paper Info</div>
+      <div class="card-body" style="font-size:13px;">
+        <div><strong>{{ paper.title }}</strong></div>
+        <div class="text-muted">{{ paper.subject }} | {{ paper.class_name }}</div>
+        <hr>
+        <div>Questions: <strong id="q-count">{{ paper.questions.count }}</strong></div>
+        <div>Total Marks: <strong id="total-marks">{{ paper.total_marks }}</strong></div>
+      </div>
+    </div>
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" onclick="saveQuestions()"><i class="bi bi-check2 me-1"></i>Save Questions</button>
+      <a href="{% url 'upload_copy' %}" class="btn btn-outline-success"><i class="bi bi-upload me-1"></i>Upload Copy Now</a>
+    </div>
+    <div id="save-msg" class="alert mt-2" style="display:none;font-size:13px;"></div>
+  </div>
+</div>
+
+{% block scripts %}
+<script>
+let qCount = {{ paper.questions.count }};
+
+function addQuestion() {
+  qCount++;
+  const html = `<div class="question-block border rounded p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="fw-semibold" style="font-size:14px;">Q${qCount}</span>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQ(this)"><i class="bi bi-trash"></i></button>
+    </div>
+    <div class="mb-2"><input class="form-control form-control-sm q-text" placeholder="Question text"></div>
+    <div class="row g-2 mb-2">
+      <div class="col-4"><select class="form-select form-select-sm q-type" onchange="toggleFields(this)">
+        <option value="mcq">MCQ</option><option value="short">Short Answer</option><option value="long">Long Answer</option>
+      </select></div>
+      <div class="col-3"><input type="number" class="form-control form-control-sm q-marks" placeholder="Marks" value="1" min="0.5" step="0.5"></div>
+      <div class="col-5"><input class="form-control form-control-sm q-answer" placeholder="Correct answer / Model answer"></div>
+    </div>
+    <div class="mcq-fields"><input class="form-control form-control-sm q-options mb-2" placeholder="MCQ Options e.g. Kitchen,Powerhouse,Nucleus,Wall"></div>
+    <div class="kw-fields d-none"><input class="form-control form-control-sm q-keywords" placeholder="Keywords: chlorophyll,glucose,sunlight"></div>
+  </div>`;
+  document.getElementById('questions-container').insertAdjacentHTML('beforeend', html);
+  updateCount();
+}
+
+function removeQ(btn) {
+  btn.closest('.question-block').remove();
+  updateCount();
+}
+
+function toggleFields(sel) {
+  const block = sel.closest('.question-block');
+  block.querySelector('.mcq-fields').classList.toggle('d-none', sel.value !== 'mcq');
+  block.querySelector('.kw-fields').classList.toggle('d-none',  sel.value === 'mcq');
+}
+
+function updateCount() {
+  const blocks = document.querySelectorAll('.question-block');
+  document.getElementById('q-count').textContent = blocks.length;
+  let total = 0;
+  blocks.forEach(b => { total += parseFloat(b.querySelector('.q-marks')?.value || 0); });
+  document.getElementById('total-marks').textContent = total.toFixed(1);
+}
+
+document.getElementById('questions-container').addEventListener('input', updateCount);
+
+async function saveQuestions() {
+  const blocks = document.querySelectorAll('.question-block');
+  const questions = [...blocks].map(b => ({
+    text:     b.querySelector('.q-text')?.value || '',
+    type:     b.querySelector('.q-type')?.value || 'short',
+    marks:    b.querySelector('.q-marks')?.value || 1,
+    answer:   b.querySelector('.q-answer')?.value || '',
+    options:  b.querySelector('.q-options')?.value || '',
+    keywords: b.querySelector('.q-keywords')?.value || '',
+  }));
+
+  const r = await fetch('', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token }}'},
+    body: JSON.stringify({questions})
+  });
+  const d = await r.json();
+  const el = document.getElementById('save-msg');
+  el.style.display = 'block';
+  el.className = 'alert mt-2 ' + (d.status === 'ok' ? 'alert-success' : 'alert-danger');
+  el.textContent = d.status === 'ok' ? `Saved! Total: ${d.total} marks` : 'Error saving.';
+}
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'grader/base.html' %}{% block title %}Papers{% endblock %}{% block page_title %}Question Papers{% endblock %}{% block content %}
+<div class="d-flex justify-content-between mb-3"><h6 class="mb-0"></h6><a href="{% url 'paper_create' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus me-1"></i>New Paper</a></div>
+<div class="card"><div class="card-body p-0"><table class="table table-hover mb-0"><thead class="table-light"><tr><th>Title</th><th>Subject</th><th>Class</th><th>Total Marks</th><th>Questions</th><th></th></tr></thead><tbody>
+{% for p in papers %}<tr><td><strong>{{ p.title }}</strong></td><td>{{ p.subject }}</td><td>{{ p.class_name }}</td><td>{{ p.total_marks }}</td><td>{{ p.questions.count }}</td><td><a href="{% url 'paper_questions' p.pk %}" class="btn btn-sm btn-outline-primary">Edit</a></td></tr>
+{% empty %}<tr><td colspan="6" class="text-center text-muted py-4">No papers yet. <a href="{% url 'paper_create' %}">Create one</a></td></tr>{% endfor %}
+</tbody></table></div></div>{% endblock %}

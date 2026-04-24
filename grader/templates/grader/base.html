@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}AutoGrade AI{% endblock %}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+:root{--primary:#1A56DB;--success:#057A55;--warning:#B45309;--danger:#C81E1E;}
+body{background:#F9FAFB;font-family:'Segoe UI',sans-serif;}
+.sidebar{width:240px;min-height:100vh;background:#1e293b;position:fixed;top:0;left:0;z-index:100;}
+.sidebar .brand{padding:1.25rem 1.5rem;border-bottom:1px solid #334155;}
+.sidebar .brand h5{color:#fff;font-weight:700;margin:0;}
+.sidebar .brand small{color:#94a3b8;font-size:11px;}
+.sidebar .nav-link{color:#94a3b8;padding:.6rem 1.5rem;border-radius:0;display:flex;align-items:center;gap:10px;font-size:14px;}
+.sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155;}
+.sidebar .nav-link i{font-size:16px;}
+.sidebar .nav-section{padding:.5rem 1.5rem .25rem;font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.08em;}
+.main-content{margin-left:240px;padding:2rem;}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:.75rem 2rem;margin-left:240px;position:sticky;top:0;z-index:99;display:flex;align-items:center;justify-content:space-between;}
+.card{border:1px solid #e5e7eb;border-radius:12px;}
+.card-header{background:#fff;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:14px;}
+.btn-primary{background:var(--primary);border-color:var(--primary);}
+.badge-mcq{background:#EFF6FF;color:#1E40AF;}
+.badge-short{background:#FFFBEB;color:#92400E;}
+.badge-long{background:#F0FDF4;color:#065F46;}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem;}
+.stat-val{font-size:28px;font-weight:700;color:#111827;}
+.stat-label{font-size:13px;color:#6b7280;}
+.pipeline-step{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;background:#f3f4f6;color:#6b7280;transition:all .4s;}
+.pipeline-step.active{background:#fef3c7;color:#92400e;}
+.pipeline-step.done{background:#d1fae5;color:#065f46;}
+</style>
+</head>
+<body>
+{% if user.is_authenticated %}
+<div class="sidebar">
+  <div class="brand">
+    <h5><i class="bi bi-robot me-2"></i>AutoGrade AI</h5>
+    <small>AI-Powered Grading</small>
+  </div>
+  <nav class="mt-2">
+    <div class="nav-section">Main</div>
+    <a href="{% url 'dashboard' %}"    class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="bi bi-speedometer2"></i>Dashboard</a>
+    <a href="{% url 'upload_copy' %}"  class="nav-link {% if request.resolver_match.url_name == 'upload_copy' %}active{% endif %}"><i class="bi bi-upload"></i>Upload Copy</a>
+    <a href="{% url 'all_results' %}"  class="nav-link {% if 'result' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-list-check"></i>Results</a>
+    <div class="nav-section">Setup</div>
+    <a href="{% url 'paper_list' %}"   class="nav-link {% if 'paper' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-file-earmark-text"></i>Question Papers</a>
+    <a href="{% url 'student_list' %}" class="nav-link {% if 'student' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-people"></i>Students</a>
+    <div class="nav-section">Reports</div>
+    <a href="{% url 'class_analytics' %}" class="nav-link {% if request.resolver_match.url_name == 'class_analytics' %}active{% endif %}"><i class="bi bi-bar-chart-line"></i>Analytics</a>
+    <a href="{% url 'export_excel' %}" class="nav-link"><i class="bi bi-file-earmark-excel"></i>Export Excel</a>
+    <a href="{% url 'student_portal' %}" class="nav-link" target="_blank"><i class="bi bi-person-badge"></i>Student Portal</a>
+  </nav>
+  <div style="position:absolute;bottom:1rem;left:0;right:0;padding:0 1.5rem;">
+    <div style="color:#94a3b8;font-size:12px;margin-bottom:8px;">{{ user.get_full_name|default:user.username }}</div>
+    <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-secondary w-100">Logout</a>
+  </div>
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="topbar">
+  <h6 class="mb-0">{% block page_title %}Dashboard{% endblock %}</h6>
+  <a href="{% url 'upload_copy' %}" class="btn btn-primary btn-sm"><i class="bi bi-upload me-1"></i>Upload Copy</a>
+</div>
+{% endif %}
+
+<div class="{% if user.is_authenticated %}main-content{% else %}container py-5{% endif %}">
+  {% if messages %}{% for msg in messages %}<div class="alert alert-{{ msg.tags }} alert-dismissible fade show"><button type="button" class="btn-close" data-bs-dismiss="alert"></button>{{ msg }}</div>{% endfor %}{% endif %}
+  {% block content %}{% endblock %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block scripts %}{% endblock %}
+<footer class="footer">
+ <span>...............................................AutoGrade AI</span>
+  — AI-Powered Answer Sheet Evaluation System &nbsp;|&nbsp; C.S.J.M Govt. Polytechnic Ambedkar Nagar &nbsp;|&nbsp; Diploma CSE 2025-26 |
+Disign and Developed by DEEPAK BHARTI
+</footer>
+</body>
+</html>

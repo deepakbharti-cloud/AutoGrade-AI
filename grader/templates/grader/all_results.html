@@ -1,0 +1,42 @@
+{% extends 'grader/base.html' %}{% block title %}All Results{% endblock %}{% block page_title %}All Results{% endblock %}{% block content %}
+<div class="d-flex gap-2 mb-3 flex-wrap">
+  <form method="get" class="d-flex gap-2">
+    <select name="paper" class="form-select form-select-sm" style="width:220px;" onchange="this.form.submit()">
+      <option value="">All Papers</option>
+      {% for p in papers %}<option value="{{ p.pk }}" {% if selected_paper == p.pk|stringformat:"s" %}selected{% endif %}>{{ p.title }}</option>{% endfor %}
+    </select>
+  </form>
+  <a href="{% url 'upload_copy' %}" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-upload me-1"></i>Upload New Copy</a>
+</div>
+
+<div class="card"><div class="card-body p-0">
+<table class="table table-hover mb-0">
+  <thead class="table-light"><tr><th>Student</th><th>Paper</th><th>Score</th><th>%</th><th>Grade</th><th>Date</th><th>WA</th><th></th></tr></thead>
+  <tbody>
+  {% for s in submissions %}
+  <tr>
+    <td><strong>{{ s.student.name }}</strong><br><small class="text-muted">Roll {{ s.student.roll_number }}</small></td>
+    <td>{{ s.paper.subject }}<br><small class="text-muted">{{ s.paper.title|truncatechars:30 }}</small></td>
+    <td>{{ s.total_marks_obtained }}/{{ s.paper.total_marks }}</td>
+    <td>
+      <span style="color:{% if s.percentage >= 60 %}#057A55{% elif s.percentage >= 33 %}#B45309{% else %}#C81E1E{% endif %};font-weight:600;">
+        {{ s.percentage }}%
+      </span>
+    </td>
+    <td><span class="badge bg-primary">{{ s.grade }}</span></td>
+    <td style="font-size:12px;">{{ s.submitted_at|date:"d M Y" }}</td>
+    <td>{% if s.whatsapp_sent %}<i class="bi bi-check-circle text-success"></i>{% else %}<i class="bi bi-dash text-muted"></i>{% endif %}</td>
+    <td>
+      <div class="d-flex gap-1">
+        <a href="{% url 'result_view' s.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+        <a href="{% url 'download_pdf' s.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-pdf"></i></a>
+      </div>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="8" class="text-center text-muted py-4">No results yet. <a href="{% url 'upload_copy' %}">Upload first copy</a></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% endblock %}

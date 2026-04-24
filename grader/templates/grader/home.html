@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AutoGrade AI — AI-Powered Answer Sheet Grading</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',sans-serif;background:#fff;color:#111827;}
+.navbar{background:#fff;border-bottom:0.5px solid #e5e7eb;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:#111827;text-decoration:none;}
+.logo-box{width:32px;height:32px;background:#1A56DB;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.nav-btns{display:flex;gap:10px;}
+.btn-outline-nav{padding:8px 18px;border:1px solid #d1d5db;border-radius:8px;background:transparent;color:#111827;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;}
+.btn-outline-nav:hover{background:#f3f4f6;color:#111827;}
+.btn-blue-nav{padding:8px 18px;border:none;border-radius:8px;background:#1A56DB;color:#fff;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;}
+.btn-blue-nav:hover{background:#1447c0;color:#fff;}
+
+.hero{padding:80px 40px 60px;text-align:center;background:#fff;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1E40AF;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:24px;border:1px solid #BFDBFE;}
+.hero h1{font-size:42px;font-weight:800;color:#111827;line-height:1.15;margin-bottom:16px;}
+.hero h1 span{color:#1A56DB;}
+.hero p{font-size:16px;color:#6b7280;max-width:540px;margin:0 auto 32px;line-height:1.65;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-hero-p{padding:13px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:#1A56DB;color:#fff;}
+.btn-hero-p:hover{background:#1447c0;}
+.btn-hero-s{padding:13px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;background:#fff;color:#111827;border:1px solid #d1d5db;}
+.btn-hero-s:hover{background:#f3f4f6;}
+
+.stats-bar{display:flex;justify-content:center;gap:48px;padding:28px 40px;background:#f9fafb;border-top:0.5px solid #e5e7eb;border-bottom:0.5px solid #e5e7eb;}
+.stat-item{text-align:center;}
+.stat-num{font-size:24px;font-weight:800;color:#1A56DB;}
+.stat-txt{font-size:12px;color:#6b7280;margin-top:2px;}
+
+.features{padding:60px 40px;background:#fff;}
+.features h2{font-size:28px;font-weight:700;text-align:center;margin-bottom:8px;color:#111827;}
+.features .sub{font-size:15px;color:#6b7280;text-align:center;margin-bottom:40px;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto;}
+.feat-card{border:1px solid #e5e7eb;border-radius:14px;padding:24px;background:#fff;transition:border-color .2s;}
+.feat-card:hover{border-color:#1A56DB;}
+.feat-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.feat-card h4{font-size:14px;font-weight:700;color:#111827;margin-bottom:6px;}
+.feat-card p{font-size:13px;color:#6b7280;line-height:1.55;}
+
+.portals{padding:0 40px 60px;background:#fff;}
+.portals h2{font-size:22px;font-weight:700;text-align:center;margin-bottom:24px;color:#111827;}
+.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;margin:0 auto;}
+.portal-card{border:1px solid #e5e7eb;border-radius:14px;padding:22px;display:flex;align-items:center;gap:16px;text-decoration:none;transition:all .2s;background:#fff;}
+.portal-card:hover{border-color:#1A56DB;background:#f8fbff;}
+.p-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.p-title{font-size:15px;font-weight:700;color:#111827;}
+.p-sub{font-size:13px;color:#6b7280;margin-top:3px;}
+.p-arrow{margin-left:auto;color:#9ca3af;font-size:18px;}
+
+.footer{background:#f9fafb;border-top:0.5px solid #e5e7eb;padding:20px 40px;text-align:center;font-size:12px;color:#9ca3af;}
+.footer span{color:#1A56DB;font-weight:600;}
+
+@media(max-width:600px){
+  .feat-grid{grid-template-columns:1fr;}
+  .portal-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:28px;}
+  .stats-bar{gap:24px;flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-logo" href="{% url 'home' %}">
+    <div class="logo-box">
+      <i class="bi bi-check2-square" style="color:white;font-size:16px;"></i>
+    </div>
+    AutoGrade AI
+  </a>
+  <div class="nav-btns">
+    <a href="{% url 'login' %}" class="btn-outline-nav">Teacher login</a>
+    <a href="{% url 'student_portal' %}" class="btn-blue-nav">Student portal</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">
+    <i class="bi bi-stars" style="font-size:12px;"></i>
+    AI-Powered Answer Sheet Grading System
+  </div>
+  <h1>Automate your <span>copy checking</span><br>with AI + DIP</h1>
+  <p>Upload handwritten answer sheets — AutoGrade AI evaluates MCQ, short and long answers automatically using Digital Image Processing and AI.</p>
+  <div class="hero-btns">
+    <a href="{% url 'login' %}" class="btn-hero-p">
+      <i class="bi bi-box-arrow-in-right me-2"></i>Teacher login
+    </a>
+    <a href="{% url 'student_portal' %}" class="btn-hero-s">
+      <i class="bi bi-mortarboard me-2"></i>Check my result
+    </a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">92%+</div><div class="stat-txt">Evaluation accuracy</div></div>
+  <div class="stat-item"><div class="stat-num">12x</div><div class="stat-txt">Faster than manual</div></div>
+  <div class="stat-item"><div class="stat-num">3 types</div><div class="stat-txt">MCQ + Short + Long</div></div>
+  <div class="stat-item"><div class="stat-num">Auto</div><div class="stat-txt">PDF + WhatsApp result</div></div>
+</div>
+
+<section class="features">
+  <h2>How AutoGrade AI works</h2>
+  <p class="sub">A complete pipeline from image to result — fully automated</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EFF6FF;">
+        <i class="bi bi-image" style="color:#1A56DB;font-size:18px;"></i>
+      </div>
+      <h4>DIP pipeline</h4>
+      <p>Skew correction, Gaussian denoising, Otsu thresholding and page segmentation using OpenCV.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#F0FDF4;">
+        <i class="bi bi-fonts" style="color:#057A55;font-size:18px;"></i>
+      </div>
+      <h4>OCR extraction</h4>
+      <p>Tesseract + EasyOCR extracts handwritten text from each answer zone accurately.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FFFBEB;">
+        <i class="bi bi-cpu" style="color:#B45309;font-size:18px;"></i>
+      </div>
+      <h4>AI evaluation</h4>
+      <p>Keyword matching + AI semantic analysis awards partial marks with detailed feedback.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FDF4FF;">
+        <i class="bi bi-file-earmark-pdf" style="color:#7C3AED;font-size:18px;"></i>
+      </div>
+      <h4>PDF result</h4>
+      <p>Professional PDF report with score summary, question-wise marks and AI feedback.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#F0FDF4;">
+        <i class="bi bi-whatsapp" style="color:#057A55;font-size:18px;"></i>
+      </div>
+      <h4>WhatsApp delivery</h4>
+      <p>Result automatically sent to student's WhatsApp via Twilio API instantly.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EFF6FF;">
+        <i class="bi bi-bar-chart-line" style="color:#1A56DB;font-size:18px;"></i>
+      </div>
+      <h4>Class analytics</h4>
+      <p>Grade distribution charts, class average, topper, question-wise performance graphs.</p>
+    </div>
+  </div>
+</section>
+
+<section class="portals">
+  <h2>Choose your portal</h2>
+  <div class="portal-grid">
+    <a href="{% url 'login' %}" class="portal-card">
+      <div class="p-icon" style="background:#EFF6FF;">
+        <i class="bi bi-person-badge" style="color:#1A56DB;font-size:22px;"></i>
+      </div>
+      <div>
+        <div class="p-title">Teacher portal</div>
+        <div class="p-sub">Upload copies, manage papers, view analytics, export results</div>
+      </div>
+      <i class="bi bi-arrow-right p-arrow"></i>
+    </a>
+    <a href="{% url 'student_portal' %}" class="portal-card">
+      <div class="p-icon" style="background:#F0FDF4;">
+        <i class="bi bi-mortarboard" style="color:#057A55;font-size:22px;"></i>
+      </div>
+      <div>
+        <div class="p-title">Student portal</div>
+        <div class="p-sub">Check your result using roll number and registered phone</div>
+      </div>
+      <i class="bi bi-arrow-right p-arrow"></i>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>AutoGrade AI</span> — AI-Powered Answer Sheet Evaluation System &nbsp;|&nbsp; C.S.J.M Govt. Polytechnic Ambedkar Nagar &nbsp;|&nbsp; Diploma CSE 2025-26 |
+Disign and Developed by DEEPAK BHARTI
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

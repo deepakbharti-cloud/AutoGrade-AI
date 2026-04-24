@@ -1,0 +1,9 @@
+{% extends 'grader/base.html' %}{% block title %}New Paper{% endblock %}{% block page_title %}Create Question Paper{% endblock %}{% block content %}
+<div class="row justify-content-center"><div class="col-md-6">
+<div class="card"><div class="card-header">Paper Details</div><div class="card-body">
+<form method="post">{% csrf_token %}
+<div class="mb-3"><label class="form-label">Paper Title</label><input name="title" class="form-control" placeholder="e.g. Mid-term Exam 2026" required></div>
+<div class="mb-3"><label class="form-label">Subject</label><input name="subject" class="form-control" placeholder="e.g. Science" required></div>
+<div class="mb-3"><label class="form-label">Class</label><input name="class_name" class="form-control" placeholder="e.g. 10-A"></div>
+<button type="submit" class="btn btn-primary">Next — Add Questions <i class="bi bi-arrow-right ms-1"></i></button>
+</form></div></div></div></div>{% endblock %}

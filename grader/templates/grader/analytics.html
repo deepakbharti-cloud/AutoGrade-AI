@@ -1,0 +1,81 @@
+{% extends 'grader/base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block page_title %}Class Analytics{% endblock %}
+{% block content %}
+<div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
+  <form method="get" class="d-flex gap-2">
+    <select name="paper" class="form-select form-select-sm" style="width:240px;" onchange="this.form.submit()">
+      <option value="">All Papers</option>
+      {% for p in papers %}<option value="{{ p.pk }}" {% if sel_paper == p.pk|stringformat:"s" %}selected{% endif %}>{{ p.title }}</option>{% endfor %}
+    </select>
+  </form>
+  {% if sel_paper %}
+  <a href="{% url 'export_excel' %}?paper={{ sel_paper }}" class="btn btn-sm btn-outline-success ms-auto"><i class="bi bi-file-earmark-excel me-1"></i>Export Excel</a>
+  <a href="{% url 'bulk_pdf_download' %}?paper={{ sel_paper }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-zip me-1"></i>Download All PDFs</a>
+  {% endif %}
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val">{{ total }}</div><div class="stat-label">Total students</div></div></div>
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val">{{ avg }}%</div><div class="stat-label">Class average</div></div></div>
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val" style="color:#057A55;">{{ high }}%</div><div class="stat-label">Highest</div></div></div>
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val" style="color:#C81E1E;">{{ low }}%</div><div class="stat-label">Lowest</div></div></div>
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val" style="color:#057A55;">{{ passed }}</div><div class="stat-label">Passed</div></div></div>
+  <div class="col-6 col-md-2"><div class="stat-card text-center"><div class="stat-val" style="color:#C81E1E;">{{ failed }}</div><div class="stat-label">Failed</div></div></div>
+</div>
+
+{% if topper %}
+<div class="alert" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;margin-bottom:1rem;">
+  <span style="font-size:13px;color:#1e40af;"><strong>Topper:</strong> {{ topper.student.name }} (Roll {{ topper.student.roll_number }}) — {{ topper.total_marks_obtained }}/{{ topper.paper.total_marks }} ({{ topper.percentage }}%)</span>
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <div class="col-md-5">
+    <div class="card"><div class="card-header">Grade distribution</div>
+    <div class="card-body"><canvas id="gradeChart" height="220"></canvas></div></div>
+  </div>
+  <div class="col-md-7">
+    <div class="card"><div class="card-header">Question-wise average marks</div>
+    <div class="card-body"><canvas id="qChart" height="220"></canvas></div></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const gradeData = {{ grade_dist|safe }};
+const qData     = {{ q_avg|safe }};
+
+new Chart(document.getElementById('gradeChart'), {
+  type: 'doughnut',
+  data: {
+    labels: Object.keys(gradeData),
+    datasets: [{
+      data: Object.values(gradeData),
+      backgroundColor: ['#057A55','#1A56DB','#6875F5','#B45309','#E3A008','#C81E1E'],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } }, cutout: '60%' }
+});
+
+new Chart(document.getElementById('qChart'), {
+  type: 'bar',
+  data: {
+    labels: Object.keys(qData),
+    datasets: [{
+      label: 'Average marks',
+      data: Object.values(qData),
+      backgroundColor: '#1A56DB88',
+      borderColor: '#1A56DB',
+      borderWidth: 1.5,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true }, x: { ticks: { font: { size: 10 } } } }
+  }
+});
+</script>
+{% endblock %}
