@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="400" viewBox="0 0 1000 400" role="img" aria-label="AutoGrade AI workflow: evaluator uploads a sheet, Django backend validates and stores it, the AI engine preprocesses, reads and scores it, then the backend saves marks, builds a report and alerts the evaluator" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#1a1744"/>
+    </linearGradient>
+    <linearGradient id="ttl" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <radialGradient id="dot">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#7dd3fc"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7dd3fc"/>
+    </marker>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="#ffffff" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <style>
+    text { font-family: Segoe UI, Helvetica, Arial, sans-serif; }
+    .title  { font-size: 12px; letter-spacing: 4px; fill: #64748b; }
+    .lane   { fill: #ffffff; fill-opacity: .035; stroke: #ffffff; stroke-opacity: .07; }
+    .lname  { font-size: 12.5px; font-weight: 800; letter-spacing: 1px; }
+    .lsub   { font-size: 10px; fill: #94a3b8; }
+    .node   { fill: #1e293b; stroke: #334155; stroke-width: 2; }
+    .nt     { font-size: 13px; font-weight: 700; fill: #f1f5f9; }
+    .ns     { font-size: 10px; fill: #94a3b8; }
+    .badge  { fill: #0b1020; stroke-width: 1.5; }
+    .bn     { font-size: 10px; font-weight: 800; }
+    .flow   { fill: none; stroke: #7dd3fc; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+              stroke-dasharray: 6 6; animation: dash 1s linear infinite; opacity: .75; }
+    @keyframes dash { to { stroke-dashoffset: -12; } }
+
+    .lit    { animation-duration: 10s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    .cA { animation-name: hlA; } .cB { animation-name: hlB; } .cC { animation-name: hlC; }
+    @keyframes hlA { 0% { stroke: #334155; } 3%,8% { stroke: #38bdf8; } 14%,100% { stroke: #334155; } }
+    @keyframes hlB { 0% { stroke: #334155; } 3%,8% { stroke: #c084fc; } 14%,100% { stroke: #334155; } }
+    @keyframes hlC { 0% { stroke: #334155; } 3%,8% { stroke: #34d399; } 14%,100% { stroke: #334155; } }
+  </style>
+
+  <rect width="1000" height="400" rx="18" fill="url(#bg)"/>
+  <rect width="1000" height="400" rx="18" fill="url(#grid)"/>
+  <text class="title" x="500" y="30" text-anchor="middle">WORKFLOW</text>
+
+  <!-- swimlanes -->
+  <rect class="lane" x="12" y="48"  width="976" height="110" rx="12"/>
+  <rect class="lane" x="12" y="164" width="976" height="110" rx="12"/>
+  <rect class="lane" x="12" y="280" width="976" height="110" rx="12"/>
+  <rect x="12" y="60"  width="4" height="86" rx="2" fill="#38bdf8"/>
+  <rect x="12" y="176" width="4" height="86" rx="2" fill="#c084fc"/>
+  <rect x="12" y="292" width="4" height="86" rx="2" fill="#34d399"/>
+
+  <text class="lname" x="28" y="98"  fill="#38bdf8">EVALUATOR</text>
+  <text class="lsub"  x="28" y="114">teacher / user</text>
+  <text class="lname" x="28" y="214" fill="#c084fc">DJANGO</text>
+  <text class="lname" x="28" y="230" fill="#c084fc">BACKEND</text>
+  <text class="lsub"  x="28" y="246">storage + reports</text>
+  <text class="lname" x="28" y="330" fill="#34d399">AI ENGINE</text>
+  <text class="lsub"  x="28" y="346">OpenCV · OCR · NLP</text>
+
+  <!-- connectors -->
+  <g marker-end="url(#arrow)">
+    <path class="flow" d="M174 131 V219 H234"/>
+    <path class="flow" d="M281 247 V335 H342"/>
+    <path class="flow" d="M434 335 H449"/>
+    <path class="flow" d="M541 335 H557"/>
+    <path class="flow" d="M649 335 H711 V249"/>
+    <path class="flow" d="M756 219 H772"/>
+    <path class="flow" d="M819 191 V103 H879"/>
+  </g>
+
+  <!-- travelling pulse (behind the nodes, visible in the gaps) -->
+  <circle r="9" fill="url(#dot)">
+    <animateMotion dur="10s" repeatCount="indefinite" calcMode="linear"
+      path="M174 103 V219 H281 V335 H604 H711 V219 H819 V103 H926"/>
+  </circle>
+
+  <!-- nodes -->
+  <g>
+    <rect class="node lit cA" x="129" y="75"  width="90" height="56" rx="12" style="animation-delay:0s"/>
+    <rect class="node lit cB" x="236" y="191" width="90" height="56" rx="12" style="animation-delay:1.8s"/>
+    <rect class="node lit cC" x="344" y="307" width="90" height="56" rx="12" style="animation-delay:3.7s"/>
+    <rect class="node lit cC" x="451" y="307" width="90" height="56" rx="12" style="animation-delay:4.6s"/>
+    <rect class="node lit cC" x="559" y="307" width="90" height="56" rx="12" style="animation-delay:5.5s"/>
+    <rect class="node lit cB" x="666" y="191" width="90" height="56" rx="12" style="animation-delay:7.3s"/>
+    <rect class="node lit cB" x="774" y="191" width="90" height="56" rx="12" style="animation-delay:8.2s"/>
+    <rect class="node lit cA" x="881" y="75"  width="90" height="56" rx="12" style="animation-delay:9.7s"/>
+  </g>
+
+  <!-- node text -->
+  <g text-anchor="middle">
+    <text class="nt" x="174" y="100">Upload</text>
+    <text class="ns" x="174" y="116">answer sheet</text>
+
+    <text class="nt" x="281" y="216">Validate</text>
+    <text class="ns" x="281" y="232">&amp; store file</text>
+
+    <text class="nt" x="389" y="332">Preprocess</text>
+    <text class="ns" x="389" y="348">OpenCV</text>
+
+    <text class="nt" x="496" y="332">OCR</text>
+    <text class="ns" x="496" y="348">text extraction</text>
+
+    <text class="nt" x="604" y="332">Evaluate</text>
+    <text class="ns" x="604" y="348">flan-t5 model</text>
+
+    <text class="nt" x="711" y="216">Save Marks</text>
+    <text class="ns" x="711" y="232">database</text>
+
+    <text class="nt" x="819" y="216">Report</text>
+    <text class="ns" x="819" y="232">PDF + Twilio</text>
+
+    <text class="nt" x="926" y="100">Result</text>
+    <text class="ns" x="926" y="116">view / get alert</text>
+  </g>
+
+  <!-- step badges -->
+  <g text-anchor="middle">
+    <circle class="badge" cx="129" cy="75"  r="10" stroke="#38bdf8"/><text class="bn" x="129" y="78.5" fill="#38bdf8">1</text>
+    <circle class="badge" cx="236" cy="191" r="10" stroke="#c084fc"/><text class="bn" x="236" y="194.5" fill="#c084fc">2</text>
+    <circle class="badge" cx="344" cy="307" r="10" stroke="#34d399"/><text class="bn" x="344" y="310.5" fill="#34d399">3</text>
+    <circle class="badge" cx="451" cy="307" r="10" stroke="#34d399"/><text class="bn" x="451" y="310.5" fill="#34d399">4</text>
+    <circle class="badge" cx="559" cy="307" r="10" stroke="#34d399"/><text class="bn" x="559" y="310.5" fill="#34d399">5</text>
+    <circle class="badge" cx="666" cy="191" r="10" stroke="#c084fc"/><text class="bn" x="666" y="194.5" fill="#c084fc">6</text>
+    <circle class="badge" cx="774" cy="191" r="10" stroke="#c084fc"/><text class="bn" x="774" y="194.5" fill="#c084fc">7</text>
+    <circle class="badge" cx="881" cy="75"  r="10" stroke="#38bdf8"/><text class="bn" x="881" y="78.5" fill="#38bdf8">8</text>
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplYzM4OWM5NC02NTEzLTRmMjQtODNjMy1mYWFkZTc5M2Y1ZmEAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaJkNIaAjiFqDoTUKTcsctdMAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo2Yjk0ZDFkZC0zNjU1LTQzNjItOGJlYS0yMjA4YzUxMTdiMzNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoYcD/09rSiQMkNr6zl0mV9gAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgghCKCfV3N+PqmaXUU8tZVs/HZxoqKxZ8cv5HvP1Z1hwukZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaJxeQ9SBd6PoGY8dL5VJj2UAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIOj3n90dT0dj5gOIwpQZJD56YNujqUVe1cwpapCY/nNEZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GRzcZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmVjMzg5Yzk0LTY1MTMtNGYyNC04M2MzLWZhYWRlNzkzZjVmYS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmZhZmY2M2U4LWFkOTctNDIxNS1hZTJmLWQxNTU1ZjY0NTA3MHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCEIoJ9Xc34+qZpdRTy1lWz8dnGiorFnxy/ke8/VnWHC6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg37Ytdu087cbkPakrT48WbX12DHbiMyc8FKSlwEapXdyiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggMvwmQqC2VhPF3WN28QQqIha4ozx5AV17a4+O2jDtpQF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQKbuJJ4IA8YZIrxRkjniWpJMwCipxgwo0gS+AfiwH92WOf8odV4y7XcepttkydUIwnvoiRMyM2Lz4cP95aSvjGI=</c2pa:manifest></metadata></svg>
