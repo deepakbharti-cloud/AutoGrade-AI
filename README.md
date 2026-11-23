@@ -13,26 +13,38 @@
 
 **Upload an answer sheet. Get a graded report. No manual checking.**
 
-[Source Code](https://github.com/deepakbharti-cloud/AutoGrade-AI) · [Report an Issue](https://github.com/deepakbharti-cloud/AutoGrade-AI/issues) · [Developer](#-developer)
+[Source Code](https://github.com/deepakbharti-cloud/AutoGrade-AI) · [Report an Issue](https://github.com/deepakbharti-cloud/AutoGrade-AI/issues) · [Developer](#developer)
 
 </div>
 
 ---
 
-## 📑 Table of Contents
+<div align="center">
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [How It Works](#-how-it-works)
-- [Workflow](#-workflow)
-- [Technology Stack](#️-technology-stack)
-- [Getting Started](#️-getting-started)
-- [Roadmap](#️-roadmap)
-- [Team](#-team)
-- [Contributing](#-contributing)
-- [Developer](#-developer)
+### 🧭 Quick Navigation
+
+<sub>Click any button to jump to that section</sub>
+
+<p>
+<a href="#overview"><img src="https://img.shields.io/badge/Overview-0ea5e9?style=for-the-badge" alt="Overview"/></a>
+<a href="#features"><img src="https://img.shields.io/badge/Features-3b82f6?style=for-the-badge" alt="Features"/></a>
+<a href="#how-it-works"><img src="https://img.shields.io/badge/How%20It%20Works-6366f1?style=for-the-badge" alt="How It Works"/></a>
+<a href="#workflow"><img src="https://img.shields.io/badge/Workflow-8b5cf6?style=for-the-badge" alt="Workflow"/></a>
+<a href="#tech-stack"><img src="https://img.shields.io/badge/Tech%20Stack-a855f7?style=for-the-badge" alt="Tech Stack"/></a>
+</p>
+<p>
+<a href="#getting-started"><img src="https://img.shields.io/badge/Getting%20Started-a855f7?style=for-the-badge" alt="Getting Started"/></a>
+<a href="#roadmap"><img src="https://img.shields.io/badge/Roadmap-8b5cf6?style=for-the-badge" alt="Roadmap"/></a>
+<a href="#team"><img src="https://img.shields.io/badge/Team-6366f1?style=for-the-badge" alt="Team"/></a>
+<a href="#contributing"><img src="https://img.shields.io/badge/Contributing-3b82f6?style=for-the-badge" alt="Contributing"/></a>
+<a href="#developer"><img src="https://img.shields.io/badge/Developer-0ea5e9?style=for-the-badge" alt="Developer"/></a>
+</p>
+
+</div>
 
 ---
+
+<a id="overview"></a>
 
 ## 📖 Overview
 
@@ -41,6 +53,8 @@ Grading answer sheets by hand is slow, repetitive and inconsistent from one eval
 It is a team project built with **Django**, with image processing, OCR and NLP working together in one pipeline.
 
 ---
+
+<a id="features"></a>
 
 ## ✨ Features
 
@@ -55,6 +69,8 @@ It is a team project built with **Django**, with image processing, OCR and NLP w
 
 ---
 
+<a id="how-it-works"></a>
+
 ## 🔁 How It Works
 
 <div align="center">
@@ -68,6 +84,8 @@ It is a team project built with **Django**, with image processing, OCR and NLP w
 5. **Report:** a PDF report is generated and the result can be sent out via Twilio.
 
 ---
+
+<a id="workflow"></a>
 
 ## 🧭 Workflow
 
@@ -128,6 +146,8 @@ flowchart TD
 
 ---
 
+<a id="tech-stack"></a>
+
 ## 🛠️ Technology Stack
 
 | Layer | Technology | Purpose |
@@ -142,6 +162,8 @@ flowchart TD
 | Version control | Git & GitHub | Source management |
 
 ---
+
+<a id="getting-started"></a>
 
 ## ⚙️ Getting Started
 
@@ -209,6 +231,8 @@ Open **http://127.0.0.1:8000/** in your browser.
 
 ---
 
+<a id="roadmap"></a>
+
 ## 🗺️ Roadmap
 
 - [x] Answer sheet upload and preprocessing
@@ -223,6 +247,8 @@ Open **http://127.0.0.1:8000/** in your browser.
 
 ---
 
+<a id="team"></a>
+
 ## 👥 Team
 
 AutoGrade AI was built by a 6-member team.
@@ -236,6 +262,8 @@ AutoGrade AI was built by a 6-member team.
 
 ---
 
+<a id="contributing"></a>
+
 ## 🤝 Contributing
 
 Suggestions and improvements are welcome.
@@ -246,6 +274,8 @@ Suggestions and improvements are welcome.
 4. Push and open a Pull Request
 
 ---
+
+<a id="developer"></a>
 
 ## 👨‍💻 Developer
 
